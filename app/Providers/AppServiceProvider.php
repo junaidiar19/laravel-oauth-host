@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Client;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 
@@ -24,8 +25,11 @@ class AppServiceProvider extends ServiceProvider
         Passport::hashClientSecrets();
 
         // Set the expiration time for the tokens
-        Passport::tokensExpireIn(now()->addMinutes(60));
-        // Passport::refreshTokensExpireIn(now()->addMinutes(5));
+        Passport::tokensExpireIn(now()->addMinute());
+        Passport::refreshTokensExpireIn(now()->addMinutes(5));
+
+        // Set the client model
+        Passport::useClientModel(Client::class);
 
         // Define the scopes
         Passport::tokensCan([
